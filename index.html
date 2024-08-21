@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Gifts Questionnaire</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Spiritual Gifts Questionnaire</h1>
+        <button id="toggle-autofill">Enable Auto-Fill</button>
+        <p id="autofill-status">Auto-Fill is Disabled</p>
+        <p>The Inventory of Spiritual Gifts contains 128 statements. Check the boxes after each statement to the extent it reflects your life experience: Much, some, little, or none.</p>
+        <p>Please keep in mind that a spiritual gift is related to your attitude or outward behavior toward building the Body of Christ and the local church.</p>
+        <form id="questionnaire-form">
+            <div>
+                <label>Gender (Optional):</label><br>
+                <label><input type="radio" name="gender" value="Male"> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Non-binary"> Non-binary</label>
+                <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+            <div>
+                <label>Age (Optional):</label><br>
+                <label><input type="radio" name="age" value="18-24"> 18-24</label>
+                <label><input type="radio" name="age" value="25-34"> 25-34</label>
+                <label><input type="radio" name="age" value="35-44"> 35-44</label>
+                <label><input type="radio" name="age" value="45-54"> 45-54</label>
+                <label><input type="radio" name="age" value="55-64"> 55-64</label>
+                <label><input type="radio" name="age" value="65+"> 65+</label>
+            </div>
+            <div>
+                <label>Marriage Status (Optional):</label><br>
+                <label><input type="radio" name="marriage_status" value="Married"> Married</label>
+                <label><input type="radio" name="marriage_status" value="Unmarried"> Unmarried</label>
+                <label><input type="radio" name="marriage_status" value="Divorced"> Divorced</label>
+            </div>
+            <div>
+                <label>Christian Status (Optional):</label><br>
+                <label><input type="radio" name="christian_status" value="0-1 years"> 0-1 years</label>
+                <label><input type="radio" name="christian_status" value="1-5 years"> 1-5 years</label>
+                <label><input type="radio" name="christian_status" value="6-10 years"> 6-10 years</label>
+                <label><input type="radio" name="christian_status" value="11+"> 11 or above</label>
+            </div>
+            <ol id="questions-list">
+                <!-- Questions will be inserted here by JavaScript -->
+            </ol>
+            <div>
+                <label>Email (Optional):</label><br>
+                <input type="email" name="email" placeholder="Enter your email address">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="questions.js"></script>
+</body>
+</html>
