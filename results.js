@@ -56,23 +56,20 @@ function displayResults() {
 }
 
 function downloadResultsPage() {
-    // Get the current HTML of the results page
-    const htmlContent = document.documentElement.outerHTML;
+    // Select the part of the page to convert to PDF
+    const element = document.querySelector('.container'); // Select the results container
 
-    // Create a Blob from the HTML string
-    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
-
-    // Create a link element to download the HTML file
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'results.html');
-    link.style.visibility = 'hidden';
-
-    // Append the link, click it to trigger the download, and then remove it
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Configure and generate the PDF
+    html2pdf()
+        .from(element)
+        .set({
+            margin: 1,
+            filename: 'results.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        })
+        .save();
 }
 
 // Attach the download function to the button
