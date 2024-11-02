@@ -8,30 +8,9 @@ function getQueryParams() {
     return result;
 }
 
-// Function to save raw data to CSV
-function saveToCSV(params) {
-    const csvData = Object.values(params).join(",") + "\n";
-    
-    fetch('save_csv.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `data=${encodeURIComponent(csvData)}`
-    }).then(response => {
-        if (!response.ok) {
-            console.error('Failed to save data to CSV');
-        }
-    });
-}
-
 // Function to calculate and display the results using a matrix
 function displayResults() {
     const params = getQueryParams();
-
-    // Save raw data to CSV
-    saveToCSV(params);
-
     // Array of spiritual gifts
     const gifts = [
         'Administration', 'Apostleship', 'Discernment', 'Evangelism', 'Exhortation',
@@ -48,7 +27,7 @@ function displayResults() {
             const questionIndex = parseInt(key.substring(1)) - 1;
             const giftIndex = Math.floor(questionIndex / 8);
             const responseValue = parseInt(params[key]);
-            
+
             matrix[giftIndex][(questionIndex % 8) + 1] = responseValue;
         }
     });
@@ -76,5 +55,33 @@ function displayResults() {
     });
 }
 
-// Call function to display results once the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', displayResults);
+function downloadResultsPage() {
+    // Get the current HTML of the results page
+    const htmlContent = document.documentElement.outerHTML;
+
+    // Create a Blob from the HTML string
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
+
+    // Create a link element to download the HTML file
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'results.html');
+    link.style.visibility = 'hidden';
+
+    // Append the link, click it to trigger the download, and then remove it
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Attach the download function to the button
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadButton = document.getElementById('download-btn');
+    if (downloadButton) {
+        downloadButton.addEventListener('click', downloadResultsPage);
+    }
+    
+    // Call function to display results once the DOM is fully loaded
+    displayResults();
+});
