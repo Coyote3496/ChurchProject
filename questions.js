@@ -1,5 +1,4 @@
-let autoFillEnabled = false;
-
+// Function to load questions from the text file
 function loadQuestions() {
     fetch('questions.txt')
         .then(response => {
@@ -22,74 +21,24 @@ function loadQuestions() {
                 `;
                 questionsList.appendChild(listItem);
             });
-
-            // Auto-fill answers if enabled
-            if (autoFillEnabled) {
-                autoFillAnswers();
-            }
         })
         .catch(error => console.error('Error loading questions:', error));
 }
 
-function autoFillAnswers() {
-    // Auto-fill radio buttons for questions
-    const questionsCount = document.querySelectorAll('#questions-list li').length;
-    for (let i = 1; i <= questionsCount; i++) {
-        const randomValue = Math.floor(Math.random() * 4);
-        const radio = document.querySelector(`input[name="q${i}"][value="${randomValue}"]`);
-        if (radio) {
-            radio.checked = true;
-        }
-    }
-
-    // Auto-fill optional fields
-    const optionalFields = {
-        gender: ['Male', 'Female', 'Non-binary', 'Other'],
-        age: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'],
-        marriage_status: ['Married', 'Unmarried', 'Divorced'],
-        christian_status: ['0-1 years', '1-5 years', '6-10 years', '11+']
-    };
-
-    Object.keys(optionalFields).forEach(field => {
-        const options = optionalFields[field];
-        const randomValue = options[Math.floor(Math.random() * options.length)];
-        const radio = document.querySelector(`input[name="${field}"][value="${randomValue}"]`);
-        if (radio) {
-            radio.checked = true;
-        }
-    });
-}
-
-function toggleAutoFill() {
-    autoFillEnabled = !autoFillEnabled;
-    const statusText = document.getElementById('autofill-status');
-    const toggleButton = document.getElementById('toggle-autofill');
-
-    if (autoFillEnabled) {
-        statusText.textContent = 'Auto-Fill is Enabled';
-        toggleButton.textContent = 'Disable Auto-Fill';
-        autoFillAnswers(); // Auto-fill answers immediately if enabled
-    } else {
-        statusText.textContent = 'Auto-Fill is Disabled';
-        toggleButton.textContent = 'Enable Auto-Fill';
-    }
-}
-
+// Handle form submission by preventing default form submission and redirecting with query parameters
 function handleFormSubmit(event) {
     event.preventDefault(); // Prevent form from submitting the traditional way
 
     const form = document.getElementById('questionnaire-form');
     const formData = new FormData(form);
     const queryString = new URLSearchParams(formData).toString();
-    
-    // Optionally: Store form data in local storage or send to server
 
-    // Redirect to results page with data
+    // Redirect to results page with data as query parameters
     window.location.href = 'results.html?' + queryString;
 }
 
+// Initialize the form and questions on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadQuestions();
-    document.getElementById('toggle-autofill').addEventListener('click', toggleAutoFill);
     document.getElementById('questionnaire-form').addEventListener('submit', handleFormSubmit);
 });
