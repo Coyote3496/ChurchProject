@@ -32,6 +32,9 @@ function handleFormSubmit(event) {
     const form = document.getElementById('questionnaire-form');
     const formData = new FormData(form);
     const queryString = new URLSearchParams(formData).toString();
+    
+    // Debugging: Log the constructed query string to ensure it's correct
+    console.log('Redirecting with query string:', queryString);
 
     // Redirect to results page with data as query parameters
     window.location.href = 'results.html?' + queryString;
